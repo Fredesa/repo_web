@@ -30,3 +30,4 @@ jobs:
                 URL_TEAMS_TRIAGE: ${{secrets.URL_TEAMS_TRIAGE}}
                 GITHUB_SECRET: ${{secrets.GITHUB_TOKEN}}
                 GITHUB_ISSUE_URL: ${{github.event.issue.html_url}}
+                REPO_NAME: ${{github.repository}}
