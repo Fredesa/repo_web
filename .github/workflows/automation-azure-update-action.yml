@@ -1,0 +1,31 @@
+name: Automation to update label and url in Azure when is updated in Github
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  update_issue:
+    if: contains(github.event.issue.labels.*.name, 'c:bug')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar el repositorio
+        uses: actions/checkout@v3
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Instalar libreria requests en python3
+        run: pip3 install requests
+
+      - name: Ejecutar script para actualizar issue
+        run: python scripts/azure_automation/update_issue_support.py
+        env:
+          NEW_LABEL: ${{github.event.label.name}}
+          DESCRITION_LABEL: ${{github.event.label.description}}
+          ISSUE_BODY: ${{ github.event.issue.body}}
+          AZURE_SECRET: ${{secrets.TOKEN_AZURE_ISSUE}}
+          URL_AZURE_ISSUE: ${{secrets.URL_AZURE_ISSUE}}
+          AZURE_AREA_PATH_UPDATE: ${{secrets.AZURE_AREA_PATH_UPDATE}}
