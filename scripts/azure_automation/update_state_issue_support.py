@@ -27,6 +27,7 @@ url_azure_issue = os.getenv("URL_AZURE_ISSUE","URL no disponible")
 azure_area_path_update = os.getenv("AZURE_AREA_PATH_UPDATE","Ruta no disponible")
 url_teams_triage = os.getenv("URL_TEAMS_TRIAGE","URL no disponible")
 github_issue_url = os.getenv("GITHUB_ISSUE_URL","URL no disponible")
+repo_name = os.getenv("REPO_NAME","Nombre no disponible")
 
 ## Variables locales
 azure_id = search_text("Codigo Azure:")
@@ -66,7 +67,7 @@ body_request_teams= {
                       "type": "TextBlock",
                       "size": "medium",
                       "weight": "bolder",
-                      "text": f"Hola compañeros de Soporte Mobile se ha cerrado el issue en azure: {azure_id} y github: {github_id}",
+                      "text": f"Hola compañeros de Soporte Mobile se ha cerrado el issue en azure: {azure_id} y github: {github_id} en el repositorio: {repo_name}",
                       "style": "heading",
                         "wrap": "true"
                   },
