@@ -30,3 +30,4 @@ jobs:
                 AZURE_AREA_PATH_UPDATE: ${{secrets.AZURE_AREA_PATH_UPDATE}}
                 URL_TEAMS_TRIAGE: ${{secrets.URL_TEAMS_TRIAGE}}
                 GITHUB_SECRET: ${{secrets.GITHUB_TOKEN}}
+                GITHUB_ISSUE_URL: ${{github.event.issue.html_url}}
