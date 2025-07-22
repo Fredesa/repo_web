@@ -1,0 +1,37 @@
+name: Automation to create ISSUES on the support team's board in Azure
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  process_issue:
+    permissions: write-all
+    if: contains(github.event.issue.labels.*.name, 'c:bug')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar el repositorio
+        uses: actions/checkout@v3
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Instalar libreria requests en python3
+        run: pip3 install requests
+
+      - name: Ejecutar script para crear ISSUE
+        run: python scripts/azure_automation/create_issue_support.py
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_URL: ${{github.event.issue.url}}
+          REPO_NAME: ${{github.repository}}
+          GITHUB_SECRET: ${{secrets.GITHUB_TOKEN}}
+          AZURE_SECRET: ${{secrets.TOKEN_AZURE_ISSUE}}
+          URL_AZURE_ISSUE: ${{secrets.URL_AZURE_ISSUE}}
+          URL_TEAMS_TRIAGE: ${{secrets.URL_TEAMS_TRIAGE}}
+          AZURE_AREA_PATH_CREATE: ${{secrets.AZURE_AREA_PATH_CREATE}}
+          AZURE_ROUTE_MESSAGE: ${{secrets.AZURE_ROUTE_MESSAGE}}
+          AZURE_ITERATION_PATH: ${{secrets.AZURE_ITERATION_PATH}}
