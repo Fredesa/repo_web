@@ -1,0 +1,32 @@
+name: Automation to update state in the issue in Azure when is closed in github
+
+on:
+  issues:
+    types: [closed]
+jobs:
+    update_state_issue:
+        if: contains(github.event.issue.labels.*.name, 'c:bug')
+        permissions: write-all
+        runs-on:
+            group: Temporal-Github
+        steps:
+            - name: Clonar el repositorio
+              uses: actions/checkout@v3
+
+            - name: Configurar Python
+              uses: actions/setup-python@v4
+              with:
+                python-version: '3.x'
+
+            - name: Instalar libreria requests en python3
+              run: pip3 install requests
+
+            - name: Ejecutar script para actualizar usuario en ISSUE
+              run: python scripts/update_state_issue_support.py
+              env:
+                ISSUE_BODY: ${{ github.event.issue.body }}
+                AZURE_SECRET: ${{secrets.TOKEN_AZURE_ISSUE}}
+                URL_AZURE_ISSUE: ${{secrets.URL_AZURE_ISSUE}}
+                AZURE_AREA_PATH_UPDATE: ${{secrets.AZURE_AREA_PATH_UPDATE}}
+                URL_TEAMS_TRIAGE: ${{secrets.URL_TEAMS_TRIAGE}}
+                GITHUB_SECRET: ${{secrets.GITHUB_TOKEN}}
