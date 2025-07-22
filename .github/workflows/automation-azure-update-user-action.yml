@@ -1,0 +1,40 @@
+name: Automation to update user when is assigned on github in the issue of Azure
+
+on:
+  issues:
+    types: [assigned]
+jobs:
+    update_user_issue:
+        if: contains(github.event.issue.labels.*.name, 'c:bug')
+        permissions: write-all
+        runs-on: ubuntu-latest
+        steps:
+            - name: Clonar el repositorio
+              uses: actions/checkout@v3
+
+            - name: Configurar Python
+              uses: actions/setup-python@v4
+              with:
+                python-version: '3.x'
+
+            - name: Instalar libreria requests en python3
+              run: pip3 install requests
+
+            - name: get Username
+              id: get_name
+              env:
+                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                ASSIGNEE: ${{ github.event.assignee.login}}
+              run: |
+                curl -s -H "Authorization: Bearer $GH_TOKEN" \
+                     -H "Accept: application/vnd.github+json" \
+                     https://api.github.com/users/$ASSIGNEE > assignee.json
+                echo "name=$(jq -r .name assignee.json)" >> $GITHUB_OUTPUT
+            - name: Ejecutar script para actualizar usuario en ISSUE
+              run: python scripts/azure_automation/update_user_issue_support.py
+              env:
+                USERNAME: ${{steps.get_name.outputs.name}}
+                ISSUE_BODY: ${{ github.event.issue.body }}
+                AZURE_SECRET: ${{secrets.TOKEN_AZURE_ISSUE}}
+                URL_AZURE_ISSUE: ${{secrets.URL_AZURE_ISSUE}}
+                AZURE_AREA_PATH_UPDATE: ${{secrets.AZURE_AREA_PATH_UPDATE}}
