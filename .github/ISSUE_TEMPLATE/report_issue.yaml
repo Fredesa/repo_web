@@ -1,0 +1,75 @@
+name: Reportar error
+description: Utiliza esta opción para reportar errores en el componente.
+labels: ["c:bug"]
+body:
+  - type: textarea
+    validations:
+      required: true
+    attributes:
+      label: Describa el error
+      description: >
+        Por favor, describa de manera clara el error encontrado y cuál debería ser su comportamiento esperado.
+  - type: textarea
+    attributes:
+      label: Como replicar el error
+      description: Paso a paso para reproducir el error
+      value: |
+        1. Ir a '...'
+        2. Haga clic en '....'
+        3. Desplácese hacia abajo hasta '....'
+        4. Ver error
+        ...
+    validations:
+      required: true
+  - type: textarea
+    validations:
+      required: true
+    attributes:
+      label: Adjunte Evidencias
+      description: >
+        Por favor, adjunte pantallas o videos que permitan evidenciar el error.
+  - type: input
+    attributes:
+      label: Si vas a contribuir la solucion al issue ingresa el nombre del programa
+      description: >
+        Si vas a contribuir con la solución al issue, ingresa el nombre del programa al que perteneces, si lo dejas en blanco lo asumira Galatea.
+  - type: dropdown
+    attributes:
+      label: Programa
+      options:
+        - Galatea
+        - Distribución Digital
+        - Otra
+    validations:
+      required: true
+      
+  - type: markdown
+    attributes:
+      value: |
+        ## Entorno de ejecución    
+
+  - type: input
+    validations:
+      required: true
+    attributes:
+      label: Version del componente Galatea
+      placeholder: v1.0.0
+      description: >
+        Por favor, indique en que versión de Galatea del componente se presenta el error.
+
+  - type: input
+    validations:
+      required: true
+    attributes:
+      label: Navegador y Sistema Operativo
+      description: >
+        Por favor, indique en que navegador evidenció el error. Detalle navegador y Sistema Operativo.
+
+  - type: input
+    validations:
+      required: true
+    attributes:
+      label: Ambiente del consumidor
+      placeholder: dev, qa, pdn
+      description: >
+        Por favor, indique en que ambiente de su aplicación evidenció el error.
