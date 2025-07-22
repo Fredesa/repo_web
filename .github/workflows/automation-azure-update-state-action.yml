@@ -7,8 +7,7 @@ jobs:
     update_state_issue:
         if: contains(github.event.issue.labels.*.name, 'c:bug')
         permissions: write-all
-        runs-on:
-            group: Temporal-Github
+        runs-on: ubuntu-latest
         steps:
             - name: Clonar el repositorio
               uses: actions/checkout@v3
