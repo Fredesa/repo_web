@@ -22,7 +22,7 @@ jobs:
               run: pip3 install requests
 
             - name: Ejecutar script para actualizar usuario en ISSUE
-              run: python scripts/update_state_issue_support.py
+              run: python scripts/azure_automation/update_state_issue_support.py
               env:
                 ISSUE_BODY: ${{ github.event.issue.body }}
                 AZURE_SECRET: ${{secrets.TOKEN_AZURE_ISSUE}}
